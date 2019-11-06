@@ -37,12 +37,15 @@ type WsLog struct {
 }
 
 func init() {
-	user := beego.AppConfig.String("mysqluser")
-	password := beego.AppConfig.String("mysqlpass")
-	ip := beego.AppConfig.String("mysqlurls")
-	mydb := beego.AppConfig.String("mysqldb")
-	dbconfig := user + ":" + password + "@tcp" + "(" + ip + ":" + "3306" + ")" + "/" + mydb + "?" + "charset=utf8&loc=Local"
-	orm.RegisterDataBase("default", "mysql", dbconfig)
+	// user := beego.AppConfig.String("mysqluser")
+	// password := beego.AppConfig.String("mysqlpass")
+	// ip := beego.AppConfig.String("mysqlurls")
+	// mydb := beego.AppConfig.String("mysqldb")
+	// dbconfig := user + ":" + password + "@tcp" + "(" + ip + ":" + "3306" + ")" + "/" + mydb + "?" + "charset=utf8&loc=Local"
+	dbtype := beego.AppConfig.String("dbtype")
+	dbinfo := beego.AppConfig.String("dbinfo")
+
+	orm.RegisterDataBase("default", dbtype, dbinfo)
 	orm.RegisterModel(new(WsUsers), new(WsAdmin), new(WsBas), new(WsLog))
 	orm.RunSyncdb("default", false, true)
 }
