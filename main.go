@@ -13,9 +13,9 @@ import (
 )
 
 func print_help() {
-	fmt.Println("Useage:")
-	fmt.Println("softradius -admin")
-	fmt.Println("softradius -radacct")
+	fmt.Println("使用帮助:")
+	fmt.Println("-admin 启动Web UI管理")
+	fmt.Println("-radiusct 启动后台radius程序")
 
 }
 func main() {
