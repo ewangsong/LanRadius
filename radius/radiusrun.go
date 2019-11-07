@@ -1,7 +1,6 @@
 package radius
 
 import (
-	"ewangsong/goradius"
 	"fmt"
 	"log"
 	"net"
@@ -30,5 +29,5 @@ func RadiusRun() {
 		log.Println(err2)
 	}
 
-	goradius.Server(udpconn)
+	RadiusServer(udpconn)
 }

@@ -5,26 +5,26 @@ import (
 	"net"
 )
 
-func Server(conn *net.UDPConn) {
+func RadiusServer(conn *net.UDPConn) {
 
 	for {
 		buf := make([]byte, 4096)
 		_, udpaddr, err := conn.ReadFromUDP(buf)
 		if err != nil {
-			return
+			log.Println(err)
 		}
 
 		ipp := udpaddr.IP.String()
 		secret := GetSecretAndDiff(ipp)
 		if secret == nil {
-			return
+			log.Println("密钥为空")
+			continue
 		}
 		pakage, _ := Parse(buf, secret)
 		userName := UserName_GetString(pakage)
 		uerPassword := UserPassword_GetString(pakage)
-
+		defer conn.Close()
 		go func() {
-			defer conn.Close()
 			if GetUserPasswd(userName) == uerPassword {
 				res := pakage.Response(CodeAccessAccept)
 				var vl = []byte{'o', 'k'}

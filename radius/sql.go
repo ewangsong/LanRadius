@@ -29,7 +29,7 @@ func DbLive() {
 func GetSecretAndDiff(ipp string) (secret []byte) {
 	db, _ := sql.Open(a, b)
 	defer db.Close()
-	res := db.QueryRow("select ip_addr,secret from ws_bas where ip = ?", ipp)
+	res := db.QueryRow("select ip_addr,secret from ws_bas where ip_addr = ?", ipp)
 	err2 := res.Scan(&ipp, &secret)
 	if err2 != nil {
 		log.Println(err2)
