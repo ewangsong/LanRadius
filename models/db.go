@@ -47,5 +47,5 @@ func init() {
 
 	orm.RegisterDataBase("default", dbtype, dbinfo)
 	orm.RegisterModel(new(WsUsers), new(WsAdmin), new(WsBas), new(WsLog))
-	orm.RunSyncdb("default", false, true)
+	orm.RunSyncdb("default", false, false)
 }
