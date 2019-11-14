@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"fmt"
 	"os/exec"
 	"radiusweb/libs"
@@ -60,7 +61,7 @@ func (c *MainController) Get() {
 	// 	}
 	// }
 	//注册
-	c.Redirect("/login.html", 302)
+	c.Redirect("/login", 302)
 }
 func (c *MainController) Post() {
 	//	c.Data["data"] = "一一一一"
@@ -73,20 +74,36 @@ func (c *MainController) Login() {
 }
 
 func (c *MainController) Getadmin() {
-	c.TplName = "login.html"
+	type RET struct {
+		Code int    `json:"code"`
+		Msg  string `json:"msg"`
+	}
+	var ret RET
+
 	Name1 := c.GetString("username")
 	Passwd1 := c.GetString("password")
 	o := orm.NewOrm()
-	admin := models.WsAdmin{}
-	admin.Name = Name1
+	admin := models.WsAdmin{Name: Name1}
 	err := o.Read(&admin, "Name")
 	beego.Info(Passwd1, admin.Password)
+	fmt.Println(err)
 	if err != nil || admin.Password != Passwd1 {
-		c.Ctx.WriteString("账号有误，请检查账号")
-		return
+		ret.Code = 1
+		ret.Msg = "用户名密码不符"
+	} else {
+		//this.Reset_cookie()
+		ret.Code = 0
+		ret.Msg = "ok"
+		//	c.Redirect("/admin/dashboard", 302)
+		//c.Ctx.WriteString("账号有误，请检查账号")
 	}
-
-	c.Redirect("/admin/dashboard", 302)
+	b, err := json.Marshal(ret)
+	if err == nil {
+		c.Ctx.WriteString(string(b))
+	} else {
+		c.Ctx.WriteString("{code:1,msg:\"JSON ERROR\"}")
+	}
+	c.TplName = "login.html"
 }
 
 //主页方法

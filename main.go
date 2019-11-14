@@ -5,20 +5,18 @@ import (
 	_ "radiusweb/models"
 	_ "radiusweb/routers"
 
-	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 )
 
 func init() {
 	jsonConfig := `{
-	    "filename" : "/var/log/goradius.log",
-	    "maxlines" : 1000,
-	    "maxsize"  : 10240
+	    "filename" : "./goradius.log",
+
 	}`
 
 	logs.SetLogger(logs.AdapterFile, jsonConfig) // 设置日志记录方式：本地文件记录
 	logs.EnableFuncCallDepth(true)               // 输出log时能显示输出文件名和行号（非必须）
-	beego.BeeLogger.DelLogger("console")
+	//beego.BeeLogger.DelLogger("console")
 	cmd.Execute()
 }
 
