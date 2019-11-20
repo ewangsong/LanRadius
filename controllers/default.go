@@ -17,63 +17,20 @@ type MainController struct {
 	beego.Controller
 }
 
+//默认的get和post方法
 func (c *MainController) Get() {
-	//插入
-	// o := orm.NewOrm()
-	// user := models.User{}
-	// user.Name = "123456"
-	// user.Passwd = "wangsong"
-	// _, err := o.Insert(&user)
-	// if err != nil {
-	// 	beego.Info("插入错误", err)
-	// 	return
-	// }
-	//	查询
-	// o := orm.NewOrm()
-	// user := models.User{}
-	// user.Name = "wangsong"
-	// err := o.Read(&user, "Name")
-	// if err != nil {
-	// 	//	beego.Info("查询失败", err)
-	// 	return
-	// }
-	// beego.Info(user.Passwd)
-	// p := user.Passwd
-	//删除
-	// o := orm.NewOrm()
-	// user := models.User{}
-	// user.Name = "123456"
-	// _, err := o.Delete(&user, "Name")
-	// if err != nil {
-	// 	beego.Info("worng", err)
-	// 	return
-	// }
-
-	//更新
-	// o := orm.NewOrm()
-	// user := models.User{}
-	// user.Name = "MyName"
-	// if o.Read(&user, "Name") == nil {
-	// 	user.Passwd = "55555"
-	// 	_, err := o.Update(&user)
-	// 	if err != nil {
-	// 		beego.Info(err)
-	// 	}
-	// }
-	//注册
 	c.Redirect("/login", 302)
 }
 func (c *MainController) Post() {
-	//	c.Data["data"] = "一一一一"
-	//	c.TplName = "index.html"
 }
 
-//登入页面方法
+//登入get页面方法
 func (c *MainController) Login() {
 	c.TplName = "login.html"
 }
 
-func (c *MainController) Getadmin() {
+//登入post页面方法
+func (c *MainController) PostLogin() {
 	type RET struct {
 		Code int    `json:"code"`
 		Msg  string `json:"msg"`
@@ -82,21 +39,23 @@ func (c *MainController) Getadmin() {
 
 	Name1 := c.GetString("username")
 	Passwd1 := c.GetString("password")
+
 	o := orm.NewOrm()
 	admin := models.WsAdmin{Name: Name1}
 	err := o.Read(&admin, "Name")
-	beego.Info(Passwd1, admin.Password)
-	fmt.Println(err)
+
 	if err != nil || admin.Password != Passwd1 {
+		beego.Error(err)	
 		ret.Code = 1
 		ret.Msg = "用户名密码不符"
 	} else {
-		//this.Reset_cookie()
+
 		ret.Code = 0
 		ret.Msg = "ok"
-		//	c.Redirect("/admin/dashboard", 302)
-		//c.Ctx.WriteString("账号有误，请检查账号")
+		//设置session
+		c.SetSession("username", Name1)
 	}
+	//对应view/login.html中的js doLogin()函数
 	b, err := json.Marshal(ret)
 	if err == nil {
 		c.Ctx.WriteString(string(b))
@@ -150,7 +109,8 @@ func (c *MainController) PostChangePassword() {
 
 //退出登入
 func (c *MainController) LogOut() {
-	c.Redirect("/login", 302)
+	c.DelSession("username")  //删除session
+	c.Redirect("/login", 302) //重定向到登入界面
 
 }
 
@@ -208,6 +168,8 @@ func (c *MainController) ShowDashboard() {
 
 	c.TplName = "dashboard.html"
 }
+
+//服务器时间
 func (c *MainController) GetServerTime() string {
 	t := time.Now()
 	return t.Format("2006-01-02 15:04:05")
@@ -220,6 +182,7 @@ func (c *MainController) GetCliOutput(cmd string) string {
 	return string(out)
 }
 
+//内存信息
 func (c *MainController) GetMemInfo() [][]string {
 	cmd := "cat /proc/meminfo"
 	tmp := c.GetCliOutput(cmd)
@@ -239,12 +202,14 @@ func (c *MainController) GetMemInfo() [][]string {
 	return ret
 }
 
+//CPU信息
 func (c *MainController) GetCpu() string {
 
 	cmd := "cat /proc/cpuinfo | egrep '^model name' | uniq | awk '{print substr($0, index($0,$4))}'"
 	return c.GetCliOutput(cmd)
 }
 
+//磁盘信息
 func (c *MainController) GetDiskUsage() *libs.DiskStatus {
 	dk := libs.DiskUsage("/")
 	return &dk

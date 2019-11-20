@@ -10,7 +10,7 @@ func init() {
 	beego.Router("/", &controllers.MainController{})
 	beego.Router("/admin", &controllers.MainController{}, "get:Getindex")
 	beego.Router("/register", &controllers.MainController{})
-	beego.Router("/login", &controllers.MainController{}, "get:Login;post:Getadmin")
+	beego.Router("/login", &controllers.MainController{}, "get:Login;post:PostLogin")
 	beego.Router("/about", &controllers.MainController{}, "get:ShowAbout")
 
 	//bas路由

@@ -65,7 +65,6 @@ func GetPagesInfo(tableName string, currentpage int, pagesize int, conditions []
 	}
 	rs = o.Raw("select *  from  "+tableName+" "+conditions[0]+" LIMIT "+con.Itoa((currentpage-1)*pagesize)+","+con.Itoa(pagesize), conditions[1])
 	//rs = o.Raw("SELECT * FROM ws_users where real_name like ?"+" LIMIT "+con.Itoa((currentpage-1)*pagesize)+","+con.Itoa(pagesize), "%王松%")
-	fmt.Println(totalItem, totalpages, rs)
 	return totalItem, totalpages, rs
 }
 

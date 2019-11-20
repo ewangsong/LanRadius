@@ -25,15 +25,26 @@ func BasInsert(name, ip_add, secret, port string) bool {
 
 //添加用户数据库操作
 
-func UserInsert(realname, name, password string) {
+func UserInsert(realname, name, password string) bool {
 	user := WsUsers{RealName: realname, Name: name, Password: password}
 	o := orm.NewOrm()
-	beego.Info(user)
-	_, err := o.Insert(&user)
-	if err != nil {
-		beego.Info("用户插入错误", err)
+	if realname == "" || name == "" || password == "" {
+		return false
 	}
 
+	err := o.Read(&user, "Name") //先查询是否存在此用户
+
+	if err != nil {
+		beego.Info(user)
+		_, err := o.Insert(&user)
+		if err != nil {
+			beego.Info("用户插入错误", err)
+			return false
+		}
+	} else {
+		return false
+	}
+	return true
 }
 
 //插入操作日志

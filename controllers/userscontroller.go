@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"fmt"
+	"encoding/json"
 	"radiusweb/models"
 
 	"github.com/astaxie/beego"
@@ -36,7 +36,7 @@ func (c *UserController) ShowUsers() {
 	po.EnablePreNexLink = true                  //是否显示上一页下一页 默认为false
 	po.Conditions = conditions                  // 传递分页条件 默认全表
 	po.Currentpage = int(pno)                   //传递当前页数,默认为1
-	po.PageSize = 10                            //页面大小  默认为20
+	po.PageSize = 20                            //页面大小  默认为20
 	//返回分页信息,
 	//第一个:为返回的当前页面数据集合,ResultSet类型
 	//第二个:生成的分页链接
@@ -60,7 +60,6 @@ func (c *UserController) PostShowUsers() {
 	var conditions []string = make([]string, 2)
 	name := c.GetString("name")
 	realname := c.GetString("realname")
-	beego.Info(name, realname)
 	if name == "" && realname == "" {
 		c.Redirect("/admin/users", 302)
 	}
@@ -70,12 +69,10 @@ func (c *UserController) PostShowUsers() {
 		//realname = " and " + "real_name=" + `"` + realname + `"`
 		conditions[1] = "%" + realname + "%"
 		conditions[0] = "where real_name like ?"
-		fmt.Println(conditions)
 	} else if realname == "" {
 		// c.Data["ShowUsers"] = models.UsersRead3(name)
 		conditions[1] = "%" + name + "%"
 		conditions[0] = "where name like ?"
-		fmt.Println(conditions)
 
 	}
 
@@ -108,7 +105,7 @@ func (c *UserController) DetailUsers() {
 	c.TplName = "users_detail.html"
 
 	id, err := c.GetInt("user_id")
-	beego.Info(id)
+
 	if err != nil {
 		beego.Info("获取用户ID错误", err)
 		return
@@ -165,17 +162,45 @@ func (c *UserController) DeleteUser() {
 
 func (c *UserController) AddUser() {
 	c.Layout = "layout_base.html"
+	if c.LayoutSections == nil {
+		c.LayoutSections = make(map[string]string)
+	}
+	c.LayoutSections["HeadCss"] = "users_head.html"
 	c.TplName = "user_add.html"
 
 }
 func (c *UserController) PostAddUser() {
+	type RET struct {
+		Code int    `json:"code"`
+		Msg  string `json:"msg"`
+		Url  string `json:"url"`
+	}
+	var ret RET
+
 	c.Layout = "layout_base.html"
 	c.TplName = "user_add.html"
 	realname := c.GetString("realname")
-	name := c.GetString("name")
+	name := c.GetString("username")
 	password := c.GetString("password")
-	models.UserInsert(realname, name, password)
-	url := models.UsersRead5(name)
-	c.Redirect(url, 302)
+
+	if models.UserInsert(realname, name, password) {
+		url := models.UsersRead5(name)
+		ret.Code = 0
+		ret.Msg = "ok"
+		ret.Url = url
+
+	} else {
+		ret.Code = 1
+		ret.Msg = "账号已存在或者输入错误"
+	}
+
+	b, err := json.Marshal(ret)
+	if err == nil {
+		c.Ctx.WriteString(string(b))
+	} else {
+		c.Ctx.WriteString("{code:1,msg:\"JSON ERROR\"}")
+	}
+	// c.Data["json"] = ret
+	// c.ServeJSON()
 
 }
