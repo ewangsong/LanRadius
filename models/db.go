@@ -10,6 +10,7 @@ import (
 
 type WsUsers struct {
 	Id         int `orm:"pk;auto"`
+	TypeId     int `orm:"null"`
 	Name       string
 	Password   string
 	RealName   string

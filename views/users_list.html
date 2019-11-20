@@ -52,7 +52,11 @@ function do_delete(user_id)
                 <tbody>
                     {{range .ShowUsers}}
                 <tr>
+                    {{if eq .TypeId 1}}
                     <td>MAC地址认证</td>
+                    {{else if eq .TypeId 2}}
+                    <td>OTP二次认证</td>
+                    {{end}}
                     <td>
                         <a href="/admin/users/detail?user_id={{.Id}}">{{.Name}}</a>
                     </td>

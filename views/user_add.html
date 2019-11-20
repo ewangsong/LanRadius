@@ -1,3 +1,4 @@
+
 <section class="content">
         <div class="box box-default">
             <div class="box-header">
@@ -7,31 +8,30 @@
             </div>
             <div class="box-body">
                 <div class="container">
-                <form class="form-horizontal form-well" role="form" action="/admin/users/add" method="post">
-                <input type="hidden" name="_xsrf" value="d83e80143d5f44e08755b2dd93adf48c"/>
+                <form class="form-horizontal form-well" role="form">
                     <div class="form-group">
-            <label class="col-sm-4 control-label" id="lab_node_id" for="node_id">区域</label>
+            <label class="col-sm-4 control-label" id="lab_node_id" for="node_id">认证类型</label>
             <div class="col-sm-6">
-            <select required="required" placeholder="区域" class="form-control" name="node_id" id="node_id">
-             <option value="1">默认区域</option>
+            <select required="required" placeholder="认证类型" class="form-control" name="node_id" id="node_id">
+             <option value="1">MAC地址认证</option>
+             <option value="2">OTP二次认证</option>
             </select>
-    
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-4 control-label" id="lab_realname" for="realname">姓名</label>
+            <label class="col-sm-4 control-label" id="realname1" for="realname">姓名</label>
             <div class="col-sm-6">
             <input name="realname"  required="required" id="realname" type="text" class="form-control"/>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-4 control-label" id="lab_account_number" for="account_number">账号</label>
+            <label class="col-sm-4 control-label" id="name1" for="zname">账号</label>
             <div class="col-sm-6">
-            <input name="name"  required="required" id="account_number" type="text" class="form-control"/>
+            <input name="username"  required="required" id="username" type="text" class="form-control"/>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-4 control-label" id="lab_password" for="password">密码</label>
+            <label class="col-sm-4 control-label" id="password1" for="password">密码</label>
             <div class="col-sm-6">
             <input name="password"  required="required" id="password" type="text" class="form-control"/>
             </div>
@@ -40,7 +40,7 @@
         <div class="form-group">
             <label class="col-sm-4 control-label" id="lab_submit" for="submit"></label>
             <div class="col-sm-6">
-            <button name="submit" placeholder="submit" id="submit" type="submit" class="btn btn-md bg-navy"><b>提交</b></button>
+            <button name="submit" placeholder="submit" id="submit" type="submit" class="btn btn-md bg-navy" onclick="javascript:check_samename();"><b>提交</b></button>
             </div>
         </div>
     

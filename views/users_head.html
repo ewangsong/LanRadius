@@ -1,20 +1,17 @@
 <script>
-    // function do_submit(){
-    //     $("#query_form").attr("action", "/admin/users");
-    //     $("#query_form").submit();
-    // }
-    
-    // function do_export(){
-    //     $("#query_form").attr("action", "/admin/customer/export");
-    //     $("#query_form").submit();
-    //     setTimeout(function(){$("#query_form").attr("action", "/admin/users");}, 0);
-    // }
-    
-    // function do_delete(customer_id)
-    // {
-    //     if(confirm("删除用户将删除用户所有相关数据，包括账号，日志，订单等，不可恢复，确认操作吗？")) {
-    //         window.location.href = "/admin/customer/delete?customer_id="+customer_id;
-    //     }
-        
-    // }
-    </script>
+          function check_samename() {
+              var realname = $("#realname").val();
+              var username = $("#username").val();
+              var password = $("#password").val();
+              
+              params = {username: username, password: password, realname: realname, _xsrf: ''};
+              $.post("/admin/users/add", params, function (data) {
+                  if (data.code > 0) {
+                      alert(data.msg)
+                      return false;
+                  }else {
+                    window.location.href = data.url;
+                }
+              }, "json");
+          }
+  </script>
