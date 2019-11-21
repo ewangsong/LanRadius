@@ -120,7 +120,6 @@ func (c *UserController) UpdateUsers() {
 	c.TplName = "users_update.html"
 
 	id, err := c.GetInt("user_id")
-	beego.Info(id)
 	if err != nil {
 		beego.Info("获取用户ID错误", err)
 		return
@@ -132,7 +131,6 @@ func (c *UserController) PostUpdateUsers() {
 	c.Layout = "layout_base.html"
 	c.TplName = "users_update.html"
 	id, err := c.GetInt("user_id")
-	beego.Info(id)
 	if err != nil {
 		beego.Info("获取用户ID错误", err)
 		return
@@ -200,7 +198,5 @@ func (c *UserController) PostAddUser() {
 	} else {
 		c.Ctx.WriteString("{code:1,msg:\"JSON ERROR\"}")
 	}
-	// c.Data["json"] = ret
-	// c.ServeJSON()
 
 }

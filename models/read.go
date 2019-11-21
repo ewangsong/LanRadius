@@ -18,23 +18,6 @@ func BasRead() []WsBas {
 		beego.Info("查询失败")
 	}
 
-	// cnt, err := o.QueryTable(bas).Count()
-	// if err != nil {
-	// 	beego.Info("查询数据失败", err)
-	// }
-
-	// for i := 0; i <; i++ {
-
-	// 	err := o.Read(&bas, "Name")
-	// 	if err != nil {
-	// 		beego.Info("查询数据失败", err)
-	// 	}
-
-	// BasShow = append(BasShow, bas)
-
-	//beego.Info(num)
-	// }
-
 	return BasShow
 }
 
@@ -104,7 +87,6 @@ func UsersRead4(s string) []WsUsers {
 	var UsersShow []WsUsers
 	user := WsUsers{}
 	o := orm.NewOrm()
-	beego.Info(user)
 	if count, err := o.QueryTable(user).Filter("realname", s).All(&UsersShow); err == nil {
 		beego.Info(count, UsersShow)
 	} else {

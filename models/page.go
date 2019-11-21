@@ -3,7 +3,6 @@ package models
 import (
 	// "fmt"
 
-	"fmt"
 	html "html/template"
 	con "strconv"
 	"strings"
@@ -44,7 +43,6 @@ func GetPagesInfo(tableName string, currentpage int, pagesize int, conditions []
 	var rs orm.RawSeter
 	o := orm.NewOrm()
 	var totalItem, totalpages int = 0, 0 //总条数,总页数
-	fmt.Println(tableName, conditions)
 	if conditions[0] == "" {
 		conditions[0] = "where real_name like ?"
 	}

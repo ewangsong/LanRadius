@@ -45,7 +45,7 @@ func (c *MainController) PostLogin() {
 	err := o.Read(&admin, "Name")
 
 	if err != nil || admin.Password != Passwd1 {
-		beego.Error(err)	
+		beego.Error(err)
 		ret.Code = 1
 		ret.Msg = "用户名密码不符"
 	} else {
@@ -193,7 +193,6 @@ func (c *MainController) GetMemInfo() [][]string {
 			//v = strings.Replace(v,"  ","",-1)
 			//fmt.Println(v)
 			fields := strings.Fields(v)
-			fmt.Println(fields)
 			a := []string{fields[0], fields[1]}
 			ret = append(ret, a)
 		}
