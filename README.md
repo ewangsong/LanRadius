@@ -5,7 +5,7 @@
 
 - 编写参考：ToughRADIUS、SoftRadius。
 
-### 安装
+### 安装（目前仅支持Linux）
 
 ---
 #### 1、编译安装
