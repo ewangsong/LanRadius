@@ -1,8 +1,9 @@
 package radius
 
 import (
-	"log"
 	"net"
+
+	"github.com/astaxie/beego"
 )
 
 func RadiusServer(conn *net.UDPConn) {
@@ -11,13 +12,13 @@ func RadiusServer(conn *net.UDPConn) {
 		buf := make([]byte, 4096)
 		_, udpaddr, err := conn.ReadFromUDP(buf)
 		if err != nil {
-			log.Println(err)
+			beego.Error(err)
 		}
 
 		ipp := udpaddr.IP.String()
 		secret := GetSecretAndDiff(ipp)
 		if secret == nil {
-			log.Println("密钥为空")
+			beego.Info("密钥为空")
 			continue
 		}
 		pakage, _ := Parse(buf, secret)
@@ -32,7 +33,7 @@ func RadiusServer(conn *net.UDPConn) {
 				udpp, _ := res.Encode()
 				conn.WriteToUDP(udpp, udpaddr)
 				//打印用户名密码和NAS IP
-				log.Println("username=", userName, "userpassword=", uerPassword, "nasIP=", ipp, "OK")
+				beego.Info("username=", userName, "userpassword=", uerPassword, "nasIP=", ipp, "OK")
 
 			} else {
 				res := pakage.Response(CodeAccessReject)
@@ -41,7 +42,7 @@ func RadiusServer(conn *net.UDPConn) {
 				udpp, _ := res.Encode()
 				conn.WriteToUDP(udpp, udpaddr)
 				//打印用户名密码和NAS IP
-				log.Println("username=", userName, "userpassword=", uerPassword, "nasIP=", ipp, "NO")
+				beego.Info("username=", userName, "userpassword=", uerPassword, "nasIP=", ipp, "NO")
 			}
 
 		}()

@@ -3,7 +3,8 @@ package radius
 import (
 	"database/sql"
 	"fmt"
-	"log"
+
+	"github.com/astaxie/beego"
 
 	_ "github.com/Go-SQL-Driver/MySQL"
 )
@@ -16,7 +17,7 @@ func DbLive() {
 	db, err := sql.Open(a, b)
 	defer db.Close()
 	if err != nil {
-		log.Fatal(err)
+		beego.Error(err)
 	}
 	// err1 := db.Ping()
 	// if err1 != nil {
@@ -32,10 +33,10 @@ func GetSecretAndDiff(ipp string) (secret []byte) {
 	res := db.QueryRow("select ip_addr,secret from ws_bas where ip_addr = ?", ipp)
 	err2 := res.Scan(&ipp, &secret)
 	if err2 != nil {
-		log.Println(err2)
+		beego.Error(err2)
 	}
 	if string(secret) == "" || string(ipp) == "" {
-		log.Println("请把IP和密钥加入认证服务器白名单")
+		beego.Info("请把IP和密钥加入认证服务器白名单")
 		return nil
 	} else {
 		secret = []byte(secret)
@@ -51,7 +52,7 @@ func GetUserPasswd(u string) (p string) {
 	var password string
 	err2 := db.QueryRow("select password from ws_users where name = ?", u).Scan(&password)
 	if err2 != nil {
-		log.Println(err2)
+		beego.Error(err2)
 		return ""
 	} else {
 		return password
