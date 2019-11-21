@@ -18,10 +18,10 @@ func init() {
 
 		Run: func(cmd *cobra.Command, args []string) {
 			if daemon {
-				command := exec.Command("/Users/waso/go/src/radiusweb/lanradius", "admin")
+				command := exec.Command("lanradius", "admin")
 				command.Start()
 				fmt.Printf("lanradius admin start, [PID] %d running...\n", command.Process.Pid)
-				ioutil.WriteFile("/Users/waso/go/src/radiusweb/cmd/lanradius-admin.pid", []byte(fmt.Sprintf("%d", command.Process.Pid)), 0666)
+				ioutil.WriteFile("/run/lanradius-admin.pid", []byte(fmt.Sprintf("%d", command.Process.Pid)), 0666)
 				daemon = false
 				os.Exit(0)
 			} else {
