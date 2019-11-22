@@ -1,7 +1,7 @@
 ### 关于
 - 懒投资RADIUS是一个开源的Radius服务软件。
 
-- 懒投资RADIUS支持标准RADIUS协议（RFC 2865, RFC 2866），提供完整的AAA实现。支持灵活的策略管理，支持各种主流接入设备并轻松扩展，具备丰富的计费策略支持。
+- 懒投资RADIUS支持标准RADIUS协议。
 
 - 编写参考：ToughRADIUS、SoftRadius。
 
