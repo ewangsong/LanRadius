@@ -18,7 +18,7 @@ func init() {
 
 		Run: func(cmd *cobra.Command, args []string) {
 			if daemon {
-				command := exec.Command("lanradius", "admin")
+				command := exec.Command("/opt/lanradius/lanradius", "admin")
 				command.Start()
 				fmt.Printf("lanradius admin start, [PID] %d running...\n", command.Process.Pid)
 				ioutil.WriteFile("/run/lanradius-admin.pid", []byte(fmt.Sprintf("%d", command.Process.Pid)), 0666)
