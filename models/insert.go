@@ -35,7 +35,6 @@ func UserInsert(realname, name, password string) bool {
 	err := o.Read(&user, "Name") //先查询是否存在此用户
 
 	if err != nil {
-		beego.Info(user)
 		_, err := o.Insert(&user)
 		if err != nil {
 			beego.Info("用户插入错误", err)
@@ -45,6 +44,21 @@ func UserInsert(realname, name, password string) bool {
 		return false
 	}
 	return true
+}
+
+//添加默认管理员账号密码
+func AddAdmin() {
+	admin := WsAdmin{Name: "admin", Password: "admin"}
+	o := orm.NewOrm()
+	err := o.Read(&admin, "Name") //先查询是否存在admin管理员
+
+	if err != nil { //有错不存在管理员
+		_, err := o.Insert(&admin) //插入默认管理员
+		if err != nil {            //插入有错误退出程序
+			beego.Info("添加默认管理员插入错误", err)
+			return
+		}
+	}
 }
 
 //插入操作日志
