@@ -23,7 +23,10 @@ var FilterUser = func(ctx *context.Context) {
 }
 
 func init() {
-	beego.LoadAppConfig("ini", "/opt/lanradius/conf/app.conf")
+	beego.AppPath = "/opt/lanradius"
+	beego.SetStaticPath("/static", "/opt/lanradius/static")
+
+	//	beego.LoadAppConfig("ini", "conf/app.conf")
 
 	jsonConfig := `{
 	    "filename" : "/var/log/lanradius/lanradius.log"
