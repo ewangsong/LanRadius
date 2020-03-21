@@ -12,7 +12,7 @@ import (
 	"github.com/astaxie/beego/logs"
 )
 
-//这里应该加载 "github.com/astaxie/beego/context" 否则会加载src/context
+//FilterUser 这里应该加载 "github.com/astaxie/beego/context" 否则会加载src/context
 //过滤器
 var FilterUser = func(ctx *context.Context) {
 	_, ok := ctx.Input.Session("username").(string)
@@ -40,11 +40,10 @@ func init() {
 	//打开session
 	beego.BConfig.WebConfig.Session.SessionOn = true
 
-	cmd.Execute() //初始化command命令
-
 }
 
 func main() {
+	cmd.Execute() //初始化command命令
 	// admin := flag.Bool("admin", false, "Run admin interface")
 	// radiusct := flag.Bool("radiusct", false, "Run radius server")
 	// help := flag.Bool("help", false, "Print Help")
