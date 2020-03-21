@@ -1,7 +1,7 @@
 package main
 
 import (
-	"radiusweb/cmd"
+	"radradius/cmd"
 	_ "radiusweb/models"
 	_ "radiusweb/routers"
 	"strings"
@@ -68,5 +68,5 @@ func main() {
 	// }
 
 	// print_help()
-
+	//测试
 }
