@@ -25,6 +25,11 @@
     cp -r LanRadius /opt/lanradius
     ```
 ### 快捷安装
+- 安装数据库并创建lanradius数据库
+
+    ```
+    create database lanradius;
+    ```
 - git中默认包含Linux的二进制文件
     ```
     cd /opt
