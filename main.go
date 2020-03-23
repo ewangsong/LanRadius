@@ -1,7 +1,7 @@
 package main
 
 import (
-	"radradius/cmd"
+	"radiusweb/cmd"
 	_ "radiusweb/models"
 	_ "radiusweb/routers"
 	"strings"
