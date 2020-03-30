@@ -126,6 +126,5 @@ radiusport=":1812"               //radius服务端口
 ```
 ### 待做
 - QA
-- Readis
 - OTP二次认证
 - 全平台
